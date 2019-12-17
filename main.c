@@ -61,16 +61,15 @@ int main(void)
   rect.y = 50;
   rect.w = 100;
   rect.h = 100;
-  
-  SDL_Event e;
-  int quit = 0;
-  while (!quit)
+
+  for (;;)
   {
-    while (SDL_PollEvent(&e))
+    SDL_Event e;
+    if (SDL_PollEvent(&e))
     {
       if (e.type == SDL_QUIT)
       {
-        quit = 1;
+        break;
       }
       if (e.type == SDL_KEYDOWN)
       {
@@ -82,7 +81,7 @@ int main(void)
             SDL_Log("Pressed 0.\n");
             break;
           default:
-            quit = 1;
+            break;
           }
         }
       }
@@ -92,6 +91,7 @@ int main(void)
         if (SDL_RenderFillRect(renderer, &rect) < 0) goto err;
         SDL_RenderPresent(renderer);
       }
+      
     }
   }
 
