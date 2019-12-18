@@ -17,5 +17,5 @@ struct Rects {
 struct Rect create_rect(int x, int y, int w, int h, int r, int g, int b, int a);
 struct Rect create_empty_rect();
 void render_rect(SDL_Renderer *renderer, struct Rect *r);
-void move_rect(struct Rect *r);
+void move_rect(struct Rect *r, struct Rects rc, int key);
 #endif

@@ -27,7 +27,7 @@ int main(void)
   if (!renderer) goto err;
   
   struct Rect rect = create_rect(50, 50, 100, 100, 255, 0, 0, 255);
-  struct Rect blue_rect = create_rect(100, 100, 100, 100, 0, 0, 255, 255);
+  struct Rect blue_rect = create_rect(200, 200, 100, 100, 0, 0, 255, 255);
   struct Rect falling_rect = create_rect(400, 0, 100, 100, 0, 255, 0, 255);
 
   struct Rects rect_container;
@@ -84,7 +84,7 @@ int main(void)
 
     for (int i = 0; i < rect_container.size; ++i)
     {
-      move_rect(&rect_container.rects[i]);
+      move_rect(&rect_container.rects[i], rect_container, i);
       render_rect(renderer, &rect_container.rects[i]);
     }
     

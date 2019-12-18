@@ -33,8 +33,22 @@ void render_rect(SDL_Renderer *renderer, struct Rect *r)
   SDL_RenderFillRect(renderer, &r->shape);
 }
 
-void move_rect(struct Rect *r)
+// TODO: Figure out how to remove the "key" field
+void move_rect(struct Rect *r, struct Rects rc, int key)
 {
+  for (int i = 0; i < rc.size; ++i)
+  {
+    if (i == key) continue;
+
+    SDL_bool result = SDL_HasIntersection(&r->shape, &rc.rects[i].shape);
+    if (result == SDL_TRUE)
+    {
+      r->shape.x -= r->x_velocity * 2;
+      r->shape.y -= r->y_velocity * 2;
+      r->x_velocity = -r->x_velocity / 2;
+      r->y_velocity = -r->y_velocity / 2;
+    }
+  }
   if (r->shape.x < 0)
   {
    r->shape.x = 0;
