@@ -1,4 +1,5 @@
 #include "rect.h"
+#include "consts.h"
 
 #include <SDL2/SDL.h>
 #include <stdlib.h>
@@ -27,13 +28,35 @@ struct Rect create_empty_rect()
   return create_rect(0,0,0,0,0,0,0,0);
 }
 
-void render_rects(SDL_Renderer *renderer, struct Rects *rect_container)
+void render_rects(SDL_Renderer *renderer, struct Rects *rc)
 {
-  for (int i = 0; i < rect_container->size; ++i)
+  for (int i = 0; i < rc->size; ++i)
   {
-    rect_container->rects[i].shape.x += rect_container->rects[i].x_velocity;
-    rect_container->rects[i].shape.y += rect_container->rects[i].y_velocity;    
-    SDL_SetRenderDrawColor(renderer, rect_container->rects[i].color[0], rect_container->rects[i].color[1], rect_container->rects[i].color[2], rect_container->rects[i].color[3]);
-    SDL_RenderFillRect(renderer, &rect_container->rects[i].shape);      
+    if (rc->rects[i].shape.x < 0)
+    {
+      rc->rects[i].shape.x = 0;
+      rc->rects[i].x_velocity = 0;
+    }
+    else if (rc->rects[i].shape.x + rc->rects[i].shape.w > WIDTH)
+    {
+      rc->rects[i].shape.x = WIDTH - rc->rects[i].shape.w;
+      rc->rects[i].x_velocity = 0;
+    }
+    else rc->rects[i].shape.x += rc->rects[i].x_velocity;
+    
+    if (rc->rects[i].shape.y < 0)
+    {
+      rc->rects[i].shape.y = 0;
+      rc->rects[i].y_velocity = 0;
+    }
+    else if (rc->rects[i].shape.y + rc->rects[i].shape.h > HEIGHT)
+    {
+      rc->rects[i].shape.y = WIDTH - rc->rects[i].shape.h;
+      rc->rects[i].y_velocity = 0;
+    }
+    else rc->rects[i].shape.y += rc->rects[i].y_velocity;
+    
+    SDL_SetRenderDrawColor(renderer, rc->rects[i].color[0], rc->rects[i].color[1], rc->rects[i].color[2], rc->rects[i].color[3]);
+    SDL_RenderFillRect(renderer, &rc->rects[i].shape);      
   }
 }
