@@ -4,6 +4,11 @@
 #define WIDTH 640
 #define HEIGHT 640
 #define FPS 60
-#define MAX(x, y) ((x) > (y) ? (x) : (y))
+
+static inline
+int max(int x, int y)
+{
+  return x > y ? x : y;
+}
 
 #endif

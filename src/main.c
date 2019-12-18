@@ -4,7 +4,6 @@
 #include <SDL2/SDL.h>
 #include <malloc/malloc.h>
 
-#include "move_rect.h"
 #include "rect.h"
 #include "consts.h"
 
@@ -89,7 +88,7 @@ int main(void)
     }
     
     const int end_frame_time = SDL_GetTicks();
-    SDL_Delay(MAX(10, render_timer - (end_frame_time - start_frame_time)));
+    SDL_Delay(max(10, render_timer - (end_frame_time - start_frame_time)));
     SDL_RenderPresent(renderer);
  }
 
