@@ -51,7 +51,7 @@ int main(void)
     {
       if (e.type == SDL_KEYDOWN)
       {
-        if (move_rect(renderer, &rect_container.rects[0], e.key.keysym.sym) == 1)
+        if (set_velocity(renderer, &rect_container.rects[0], e.key.keysym.sym) == 1)
         {
           struct Rect *temp_rect;
           switch (e.key.keysym.sym)
@@ -81,8 +81,12 @@ int main(void)
         break;
       }
     }
-    
-    render_rects(renderer, &rect_container);
+
+    for (int i = 0; i < rect_container.size; ++i)
+    {
+      move_rect(&rect_container.rects[i]);
+      render_rect(renderer, &rect_container.rects[i]);
+    }
     
     const int end_frame_time = SDL_GetTicks();
     SDL_Delay(MAX(10, render_timer - (end_frame_time - start_frame_time)));

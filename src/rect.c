@@ -11,12 +11,7 @@ struct Rect create_rect(int x, int y, int w, int h, int r, int g, int b, int a)
   rect.color[1] = g;
   rect.color[2] = b;
   rect.color[3] = a;
-  SDL_Rect sdl_rect = {
-                       x,
-                       y,
-                       w,
-                       h
-  };
+  SDL_Rect sdl_rect = { x, y, w, h };
   rect.shape = sdl_rect;
   rect.x_velocity = 0;
   rect.y_velocity = 0;
@@ -28,35 +23,39 @@ struct Rect create_empty_rect()
   return create_rect(0,0,0,0,0,0,0,0);
 }
 
-void render_rects(SDL_Renderer *renderer, struct Rects *rc)
+void render_rect(SDL_Renderer *renderer, struct Rect *r)
 {
-  for (int i = 0; i < rc->size; ++i)
+  SDL_SetRenderDrawColor(renderer,
+                         r->color[0],
+                         r->color[1],
+                         r->color[2],
+                         r->color[3]);
+  SDL_RenderFillRect(renderer, &r->shape);
+}
+
+void move_rect(struct Rect *r)
+{
+  if (r->shape.x < 0)
   {
-    if (rc->rects[i].shape.x < 0)
-    {
-      rc->rects[i].shape.x = 0;
-      rc->rects[i].x_velocity = 0;
-    }
-    else if (rc->rects[i].shape.x + rc->rects[i].shape.w > WIDTH)
-    {
-      rc->rects[i].shape.x = WIDTH - rc->rects[i].shape.w;
-      rc->rects[i].x_velocity = 0;
-    }
-    else rc->rects[i].shape.x += rc->rects[i].x_velocity;
-    
-    if (rc->rects[i].shape.y < 0)
-    {
-      rc->rects[i].shape.y = 0;
-      rc->rects[i].y_velocity = 0;
-    }
-    else if (rc->rects[i].shape.y + rc->rects[i].shape.h > HEIGHT)
-    {
-      rc->rects[i].shape.y = WIDTH - rc->rects[i].shape.h;
-      rc->rects[i].y_velocity = 0;
-    }
-    else rc->rects[i].shape.y += rc->rects[i].y_velocity;
-    
-    SDL_SetRenderDrawColor(renderer, rc->rects[i].color[0], rc->rects[i].color[1], rc->rects[i].color[2], rc->rects[i].color[3]);
-    SDL_RenderFillRect(renderer, &rc->rects[i].shape);      
+   r->shape.x = 0;
+   r->x_velocity = 0;
   }
+  else if (r->shape.x + r->shape.w > WIDTH)
+  {
+   r->shape.x = WIDTH - r->shape.w;
+   r->x_velocity = 0;
+  }
+  else r->shape.x += r->x_velocity;
+
+  if (r->shape.y < 0)
+  {
+   r->shape.y = 0;
+   r->y_velocity = 0;
+  }
+  else if (r->shape.y + r->shape.h > HEIGHT)
+  {
+   r->shape.y = WIDTH - r->shape.h;
+   r->y_velocity = 0;
+  }
+  else r->shape.y += r->y_velocity;
 }

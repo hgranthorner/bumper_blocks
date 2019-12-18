@@ -1,5 +1,8 @@
 #+TITLE: Game
 
 * DONE Game Loop
-* TODO Render multiple things
+* DONE Render multiple things
 ** Keep list of rectangles?
+* DONE Check for collision with edge of screen
+* TODO Check for collision with other rectangles
+- See [[https://wiki.libsdl.org/SDL_IntersectRect][the SDL wiki page on SDL_IntersectRect]]
