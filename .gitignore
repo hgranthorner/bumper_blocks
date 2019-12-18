@@ -1,2 +1,4 @@
 *.o
 /play
+/TAGS
+*.html
