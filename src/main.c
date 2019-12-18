@@ -6,11 +6,7 @@
 
 #include "move_rect.h"
 #include "rect.h"
-
-#define WIDTH 640
-#define HEIGHT 640
-#define FPS 60
-#define MAX(x, y) ((x) > (y) ? (x) : (y))
+#include "consts.h"
 
 int main(void)
 {
