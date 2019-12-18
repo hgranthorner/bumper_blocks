@@ -73,26 +73,3 @@ void move_rect(struct Rect *r, struct Rects rc, int key)
   }
   else r->shape.y += r->y_velocity;
 }
-
-int set_velocity(SDL_Renderer* r, struct Rect* rect, SDL_Keycode code)
-{
-  switch (code)
-  {
-  case SDLK_UP:
-    rect->y_velocity += -1;
-    break;
-  case SDLK_RIGHT:
-    rect->x_velocity += 1;
-    break;
-  case SDLK_DOWN:
-    rect->y_velocity += 1;
-    break;
-  case SDLK_LEFT:
-    rect->x_velocity += -1;
-    break;
-  default:
-    return 1;
-  }
-
-  return 0;
-}

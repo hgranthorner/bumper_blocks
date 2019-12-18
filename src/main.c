@@ -6,6 +6,7 @@
 
 #include "rect.h"
 #include "consts.h"
+#include "player.h"
 
 int main(void)
 {
@@ -24,15 +25,21 @@ int main(void)
 
   SDL_Renderer *renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
   if (!renderer) goto err;
+
+  struct Players player_container;
+  player_container.count = 2;
   
-  struct Rect rect = create_rect(50, 50, 100, 100, 255, 0, 0, 255);
+  struct Player players[] = { create_player1(), create_player2() };
+  player_container.players = players;
+  
+  struct Rect green_rect = create_rect(50, 400, 100, 100, 0, 255, 0, 255);
   struct Rect blue_rect = create_rect(200, 200, 100, 100, 0, 0, 255, 255);
   struct Rect falling_rect = create_rect(400, 0, 100, 100, 0, 255, 0, 255);
 
   struct Rects rect_container;
   rect_container.size = 3;
   rect_container.rects = (struct Rect *) malloc(sizeof(struct Rect) * 3);
-  rect_container.rects[0] = rect;
+  rect_container.rects[0] = green_rect;
   rect_container.rects[1] = blue_rect;
   rect_container.rects[2] = falling_rect;
   
@@ -50,7 +57,7 @@ int main(void)
     {
       if (e.type == SDL_KEYDOWN)
       {
-        if (set_velocity(renderer, &rect_container.rects[0], e.key.keysym.sym) == 1)
+        if (set_player_velocity(renderer, &player_container, e.key.keysym.sym) == 1)
         {
           struct Rect *temp_rect;
           switch (e.key.keysym.sym)
@@ -81,6 +88,12 @@ int main(void)
       }
     }
 
+    for (int i = 0; i < player_container.count; ++i)
+    {
+      move_player(&player_container.players[i], &player_container, rect_container, player_container.players[i].key);
+      render_rect(renderer, &player_container.players[i].rect);
+    }
+    
     for (int i = 0; i < rect_container.size; ++i)
     {
       move_rect(&rect_container.rects[i], rect_container, i);
