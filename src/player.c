@@ -33,7 +33,7 @@ struct Player create_player2()
   p.controls = c;
   p.key = 0;
   int half_p = PLAYER_LENGTH / 2;
-  p.rect = create_rect((WIDTH * (4 / 5)) - half_p,
+  p.rect = create_rect((WIDTH / 5) * 4 - half_p,
                        (HEIGHT / 2) - half_p,
                        PLAYER_LENGTH,
                        PLAYER_LENGTH,
@@ -74,7 +74,7 @@ void check_rect_collision(struct Player *p, struct Rects rc)
   }
   else if (p->rect.shape.y + p->rect.shape.h > HEIGHT)
   {
-    p->rect.shape.y = WIDTH - p->rect.shape.h;
+    p->rect.shape.y = HEIGHT - p->rect.shape.h;
     p->rect.y_velocity = 0;
   }
   else p->rect.shape.y += p->rect.y_velocity;
@@ -95,22 +95,22 @@ int set_player_velocity(SDL_Renderer* r, struct Players* p, SDL_Keycode code)
     struct Controls *c = &p->players[i].controls;
     if (c->up == code)
     {
-      *y_vel += *y_vel < -15 ? 0 : -5;
+      *y_vel += *y_vel < -12 ? 0 : -3;
       result = 0;
     }
     else if (c->right == code)
     {
-      *x_vel += *x_vel > 15 ? 0 : 5;
+      *x_vel += *x_vel > 12 ? 0 : 3;
       result = 0;
     }
     else if (c->down == code)
     {
-      *y_vel += *y_vel > 15 ? 0 : 5;
+      *y_vel += *y_vel > 12 ? 0 : 3;
       result = 0;
     }
     else if (c->left == code)
     {
-      *x_vel += *x_vel < -15 ? 0 : -5;
+      *x_vel += *x_vel < -12 ? 0 : -3;
       result = 0;
     }
   }
