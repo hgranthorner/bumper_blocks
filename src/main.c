@@ -89,17 +89,17 @@ int main(void)
         running = 0;
       }
     }
+  
+    for (int i = 0; i < rect_container.size; ++i)
+    {
+      render_rect(renderer, &rect_container.rects[i]);
+    }
 
     for (int i = 0; i < player_container.count; ++i)
     {
       move_player(&player_container.players[i], &player_container, rect_container);
       render_rect(renderer, &player_container.players[i].rect);
       render_points(renderer, &player_container.players[i]);
-    }
-    
-    for (int i = 0; i < rect_container.size; ++i)
-    {
-      render_rect(renderer, &rect_container.rects[i]);
     }
 
     if (player_container.players[0].points == 0)
