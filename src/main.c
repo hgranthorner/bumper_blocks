@@ -32,16 +32,16 @@ int main(void)
   struct Player players[] = { create_player1(), create_player2() };
   player_container.players = players;
   
-  struct Rect green_rect = create_rect(50, 400, 100, 100, 0, 255, 0, 255);
-  struct Rect blue_rect = create_rect(200, 200, 100, 100, 0, 0, 255, 255);
-  struct Rect falling_rect = create_rect(400, 0, 100, 100, 0, 255, 0, 255);
+  struct Rect green_rect = create_rect(50, 50, 100, 100, 0, 255, 0, 255);
+  struct Rect blue_rect = create_rect(600, 600, 100, 100, 0, 0, 255, 255);
+  struct Rect red_rect = create_rect(100, 600, 100, 100, 255, 0, 0, 255);
 
   struct Rects rect_container;
   rect_container.size = 3;
   rect_container.rects = (struct Rect *) malloc(sizeof(struct Rect) * 3);
   rect_container.rects[0] = green_rect;
   rect_container.rects[1] = blue_rect;
-  rect_container.rects[2] = falling_rect;
+  rect_container.rects[2] = red_rect;
   
   const int render_timer = roundf(1000.0f / (float) FPS);
 
@@ -90,20 +90,20 @@ int main(void)
 
     for (int i = 0; i < player_container.count; ++i)
     {
-      move_player(&player_container.players[i], &player_container, rect_container, player_container.players[i].key);
+      move_player(&player_container.players[i], &player_container, rect_container);
       render_rect(renderer, &player_container.players[i].rect);
+      render_points(renderer, &player_container.players[i]);
     }
     
     for (int i = 0; i < rect_container.size; ++i)
     {
-      move_rect(&rect_container.rects[i], rect_container, i);
       render_rect(renderer, &rect_container.rects[i]);
     }
     
     const int end_frame_time = SDL_GetTicks();
     SDL_Delay(max(10, render_timer - (end_frame_time - start_frame_time)));
     SDL_RenderPresent(renderer);
- }
+  }
 
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(win);
