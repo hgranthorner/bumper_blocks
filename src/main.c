@@ -44,14 +44,16 @@ int main(void)
   rect_container.rects[2] = red_rect;
   
   const int render_timer = roundf(1000.0f / (float) FPS);
+  int running = 1;
 
-  for (;;)
+
+  while (running)
   {
     SDL_Event e;
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
     
-    const int start_frame_time = SDL_GetTicks();    
+    const int start_frame_time = SDL_GetTicks();
     
     if (SDL_PollEvent(&e))
     {
@@ -84,7 +86,7 @@ int main(void)
       }
       if (e.type == SDL_QUIT)
       {
-        break;
+        running = 0;
       }
     }
 
@@ -98,6 +100,27 @@ int main(void)
     for (int i = 0; i < rect_container.size; ++i)
     {
       render_rect(renderer, &rect_container.rects[i]);
+    }
+
+    if (player_container.players[0].points == 0)
+    {
+      SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+      SDL_RenderClear(renderer);
+      SDL_RenderPresent(renderer);
+      SDL_Delay(3000);
+      players[0] = create_player1();
+      players[1] = create_player2();
+      player_container.players = players;
+    }
+    else if (player_container.players[1].points == 0)
+    {
+      SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+      SDL_RenderClear(renderer);
+      SDL_RenderPresent(renderer);
+      SDL_Delay(3000);
+      players[0] = create_player1();
+      players[1] = create_player2();
+      player_container.players = players;
     }
     
     const int end_frame_time = SDL_GetTicks();

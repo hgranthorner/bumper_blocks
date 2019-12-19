@@ -4,7 +4,7 @@
 #define WIDTH 1000
 #define HEIGHT 800
 #define FPS 60
-#define PLAYER_LENGTH 24
+#define PLAYER_LENGTH 40
 
 static inline
 int max(int x, int y)

@@ -61,13 +61,13 @@ void check_rect_collision(struct Player *p, struct Rects rc)
   if (p->rect.shape.x < 0)
   {
     p->rect.shape.x = 0;
-    p->rect.x_velocity = 0;
+    p->rect.x_velocity = -p->rect.x_velocity / 2;
     p->points -= 1;
   }
   else if (p->rect.shape.x + p->rect.shape.w > WIDTH)
   {
     p->rect.shape.x = WIDTH - p->rect.shape.w;
-    p->rect.x_velocity = 0;
+    p->rect.x_velocity = -p->rect.x_velocity / 2;
     p->points -= 1;
   }
   else p->rect.shape.x += p->rect.x_velocity;
@@ -75,13 +75,13 @@ void check_rect_collision(struct Player *p, struct Rects rc)
   if (p->rect.shape.y < 0)
   {
     p->rect.shape.y = 0;
-    p->rect.y_velocity = 0;
+    p->rect.y_velocity = -p->rect.y_velocity / 2;
     p->points -= 1;
   }
   else if (p->rect.shape.y + p->rect.shape.h > HEIGHT)
   {
     p->rect.shape.y = HEIGHT - p->rect.shape.h;
-    p->rect.y_velocity = 0;
+    p->rect.y_velocity = -p->rect.y_velocity / 2;
     p->points -= 1;
   }
   else p->rect.shape.y += p->rect.y_velocity;
@@ -170,7 +170,7 @@ int set_player_velocity(SDL_Renderer* r, struct Players* p, SDL_Keycode code)
 
 void render_points(SDL_Renderer *renderer, const struct Player *p)
 {
-  for (int i = 1; i < p->points; ++i)
+  for (int i = 0; i < p->points; ++i)
   {
     int x = p->number == 1
       ? p->rect.shape.w
